@@ -1,0 +1,15 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.claude/settings.local.json
+
+data/raw/*
+data/processed/*
+data/exports/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/exports/.gitkeep
+*.db

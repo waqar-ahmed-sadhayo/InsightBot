@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Log in - InsightBot{% endblock %}
+{% block content %}
+<div class="auth-shell">
+  <div class="card auth-card">
+    <img class="auth-icon" src="/static/img/icon-128.png" alt="InsightBot">
+    <h1>Welcome back</h1>
+    <p class="auth-sub">Log in to browse and search extracted articles.</p>
+    <form id="login-form">
+      <label>Email<input type="email" name="email" autocomplete="email" required></label>
+      <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+      <button type="submit">Log in</button>
+    </form>
+    <p id="login-message" class="message"></p>
+    <p>No account? <a href="/register">Register</a> (requires admin approval)</p>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/login.js"></script>{% endblock %}

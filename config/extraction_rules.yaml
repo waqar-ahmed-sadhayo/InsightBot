@@ -1,0 +1,18 @@
+# Per-domain extraction overrides.
+#
+# The rule engine (insightbot/extraction/rules.py) ALWAYS falls back to the
+# generic heuristic when a domain has no entry here, or when a selector
+# below returns nothing. Add an entry only when the generic heuristic
+# mis-extracts a specific site's title/body/date.
+#
+# Selectors are CSS selectors passed to BeautifulSoup.select_one /
+# select_one. `date_attr` (optional) names the attribute to read the date
+# from (e.g. "datetime", "content"); if omitted, element text is used.
+#
+# Example (remove/replace with real domains you tune against):
+#
+# example-news-en-1.com:
+#   title_selector: "h1.article-headline"
+#   body_selector: "div.article-body"
+#   date_selector: "meta[property='article:published_time']"
+#   date_attr: "content"

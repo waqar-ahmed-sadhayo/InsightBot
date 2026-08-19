@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Articles - InsightBot{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Extracted articles</h1>
+  <p>Rule-based extraction results across English, Arabic, and Russian sources.</p>
+</div>
+<div id="gate-message" class="message"></div>
+<div class="articles-toolbar card">
+  <div class="stats-row" id="stats-row"></div>
+  <div class="filter-bar">
+    <div class="control select-wrap">
+      <svg class="select-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16l-6.2 7.2v5.6l-3.6 1.8v-7.4L4 5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <select id="domain-filter" title="Filter by domain">
+        <option value="">All domains</option>
+      </select>
+    </div>
+    <button id="saved-toggle" class="chip" type="button">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 6-5.2-2.8-5.2 2.8 1-6-4.3-4.2 5.9-.8L12 3.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Saved
+    </button>
+  </div>
+</div>
+<ul id="article-list" class="article-list"></ul>
+<div class="pager">
+  <button id="prev-page">&laquo; Prev</button>
+  <span id="page-indicator"></span>
+  <button id="next-page">Next &raquo;</button>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/articles.js"></script>{% endblock %}

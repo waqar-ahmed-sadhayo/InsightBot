@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Admin - InsightBot{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Pending approvals</h1>
+  <p>New registrations wait here until an admin approves them.</p>
+</div>
+<div id="admin-gate" class="message"></div>
+<ul id="pending-list" class="article-list"></ul>
+{% endblock %}
+{% block scripts %}<script src="/static/js/admin.js"></script>{% endblock %}

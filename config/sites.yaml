@@ -1,0 +1,140 @@
+# InsightBot site configuration
+#
+# Populated with real, live article URLs pulled from public RSS feeds on
+# 2026-08-17 (see the discovery approach in README.md). News URLs age out
+# quickly -- if a URL 404s later, swap in a fresh article from the same
+# outlet's RSS feed; the domain is what matters for the generic-heuristic
+# generalization story, not the specific article.
+#
+# training  - sites used to derive/tune any per-domain overrides in
+#             extraction_rules.yaml (currently none are needed -- the
+#             generic heuristic handles all of these).
+# held_out  - different domains from training, never used to tune rules;
+#             insightbot/evaluation/evaluate.py measures accuracy here to
+#             show the heuristic generalizes rather than overfits.
+
+training:
+  # --- English: bbc.co.uk, theguardian.com, cbsnews.com, cnbc.com, euronews.com ---
+  # (npr.org and dw.com were tried first but consistently time out / reset
+  # the connection for this scraper -- see README "known limitations";
+  # swapped for domains that actually respond.)
+  - url: "https://www.bbc.co.uk/news/articles/c4g3re5ew8do"
+    language: en
+  - url: "https://www.bbc.co.uk/news/articles/clyvj5zdjj2o"
+    language: en
+  - url: "https://www.bbc.co.uk/news/articles/ce8lx172kero"
+    language: en
+  - url: "https://www.theguardian.com/world/2026/aug/17/ebola-outbreak-drc-democratic-republic-of-congo-deadliest-in-history"
+    language: en
+  - url: "https://www.theguardian.com/world/2026/aug/15/more-bodies-recovered-after-zimbabwe-boat-accident"
+    language: en
+  - url: "https://www.theguardian.com/world/2026/aug/15/moroccan-police-arrest-more-than-100-people-as-they-attempt-to-enter-ceuta"
+    language: en
+  - url: "https://www.cbsnews.com/news/hayden-panettiere-dies-at-36/"
+    language: en
+  - url: "https://www.cbsnews.com/news/indonesia-earthquake-death-toll-flores-island-independence-day/"
+    language: en
+  - url: "https://www.cbsnews.com/news/fired-defense-minister-mykhailo-fedorov-ukraine-technological-war-russia/"
+    language: en
+  - url: "https://www.cnbc.com/2026/08/10/oil-iran-war-profits-windfall-tax.html"
+    language: en
+  - url: "https://www.cnbc.com/2026/08/12/europe-heat-drought-nuclear-power.html"
+    language: en
+  - url: "https://www.euronews.com/2026/08/17/at-least-seven-killed-in-stampede-at-hindu-temple-in-india"
+    language: en
+  - url: "https://www.euronews.com/2026/08/17/kushner-to-meet-israeli-pm-netanyahu-after-talks-with-hamas-on-gaza-peace-plan"
+    language: en
+
+  # --- Arabic: bbc.com/arabic, skynewsarabia.com, arabic.euronews.com, arabic.cnn.com ---
+  # (dw.com/ar times out for this scraper; swapped for arabic.euronews.com)
+  - url: "https://www.bbc.com/arabic/articles/cvg99508x7eo"
+    language: ar
+  - url: "https://www.bbc.com/arabic/articles/c998dr450kko"
+    language: ar
+  - url: "https://www.bbc.com/arabic/articles/c2k77ele1qgo"
+    language: ar
+  - url: "https://www.bbc.com/arabic/articles/cy0jzl01090o"
+    language: ar
+  - url: "https://www.skynewsarabia.com/business/1886594-أداء-قوي-للصندوق-السيادي-السعودي-السعودي-2025"
+    language: ar
+  - url: "https://www.skynewsarabia.com/technology/1886538-10-فواكه-يمكن-لمرضى-السكري-تناولها-باعتدال"
+    language: ar
+  - url: "https://www.skynewsarabia.com/world/1886589-ترامب-إيران-يمكن-تمتلك-سلاحا-نوويا"
+    language: ar
+  - url: "https://arabic.euronews.com/2026/08/16/iran-amir-hatami-trump-hormuz-us-military-middle-east-tehran"
+    language: ar
+  - url: "https://arabic.euronews.com/2026/08/17/gaza-israel-netanyahu-trump-kushner-hamas-us-peace-plan"
+    language: ar
+  - url: "https://arabic.euronews.com/2026/08/17/iran-drone-attack-targets-office-of-iraqi-kurdistan-pm"
+    language: ar
+  - url: "https://arabic.cnn.com/middle-east/article/2026/08/17/trump-comments-deadline-signing-a-final-agreement-iran"
+    language: ar
+  - url: "https://arabic.cnn.com/travel/article/2026/08/17/discovery-ancient-lost-city-egypt"
+    language: ar
+  - url: "https://arabic.cnn.com/sport/article/2026/08/17/ronaldo-hints-at-retiring-from-football"
+    language: ar
+
+  # --- Russian: bbc.com/russian, lenta.ru, meduza.io, ru.euronews.com, ria.ru ---
+  # (dw.com/ru times out and tass.ru returns 403 for this scraper;
+  # swapped for ru.euronews.com)
+  - url: "https://www.bbc.com/russian/articles/ce3440zr5q3o"
+    language: ru
+  - url: "https://www.bbc.com/russian/articles/c7vg43ee213o"
+    language: ru
+  - url: "https://www.bbc.com/russian/articles/cn8negvy1x7o"
+    language: ru
+  - url: "https://lenta.ru/news/2026/08/17/dozhdi-msk/"
+    language: ru
+  - url: "https://lenta.ru/news/2026/08/17/afera-jilyo/"
+    language: ru
+  - url: "https://lenta.ru/news/2026/08/17/v-rossii-otsenili-dannye-o-taynom-vyvoze-nefti-cherez-ormuzskiy-proliv/"
+    language: ru
+  - url: "https://meduza.io/news/2026/08/17/anonsirovany-dva-kontserta-ye-on-zhe-kanie-uest-v-peterburge-v-oktyabre-2026-goda"
+    language: ru
+  - url: "https://meduza.io/news/2026/08/17/al-arabiya-ssha-i-iran-prodlili-peremirie-esche-na-60-dney"
+    language: ru
+  - url: "https://ru.euronews.com/2026/08/12/putin-armenia-referendum"
+    language: ru
+  - url: "https://ru.euronews.com/2026/08/14/luidzhi-manone-priznal-sebya-vinovnym-v-ubijstve-glavy-strahovoj-kompanii-brajana-tompsona"
+    language: ru
+  - url: "https://ru.euronews.com/2026/08/14/novaya-zelandiya-otozvala-podderzhku-dzhanni-infantino-na-fone-raskola-v-fifa"
+    language: ru
+  - url: "https://ru.euronews.com/2026/08/16/taliby-otmetili-pyatiletie-vozvrasheniya-k-vlasti-v-afganistane"
+    language: ru
+  - url: "https://ria.ru/20260817/kursk-2111376200.html"
+    language: ru
+  - url: "https://ria.ru/20260817/ufa-2111375843.html"
+    language: ru
+
+# Held-out set (10 sites, different domains from training, never used to
+# tune extraction_rules.yaml).
+held_out:
+  # English: apnews.com (not used in training). news.sky.com was tried
+  # first but returns 403 Forbidden to non-browser clients (WAF bot
+  # blocking) -- a real limitation, not an extraction bug; swapped for a
+  # domain that actually serves scrapers so the held-out accuracy report
+  # is measuring extraction quality rather than being blocked outright.
+  - url: "https://apnews.com/article/afghanistan-taliban-marks-takeover-anniversary-86a28152904a402836daf5d68328f22c"
+    language: en
+  - url: "https://apnews.com/article/bbc-trump-defamation-lawsuit-subpoenas-6e5936f0a221c04927459efdb1e949ef"
+    language: en
+  - url: "https://apnews.com/article/brazil-lula-flavio-bolsonaro-campaign-opens-8f4ad67b107cb05736f450f67198b190"
+    language: en
+
+  # Arabic: aawsat.com (Asharq Al-Awsat) -- not used in training
+  - url: "https://aawsat.com/node/5307980"
+    language: ar
+  - url: "https://aawsat.com/node/5307979"
+    language: ar
+  - url: "https://aawsat.com/node/5307978"
+    language: ar
+
+  # Russian: kommersant.ru + vedomosti.ru -- not used in training
+  - url: "https://www.kommersant.ru/doc/8891304"
+    language: ru
+  - url: "https://www.kommersant.ru/doc/8891321"
+    language: ru
+  - url: "https://www.vedomosti.ru/society/news/2026/08/17/1221662-sud-prigovoril-eks-glavu"
+    language: ru
+  - url: "https://www.vedomosti.ru/politics/news/2026/08/17/1221661-ssha-iran-dogovorilis"
+    language: ru

@@ -1,0 +1,30 @@
+# --- Ingestion ---
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.0
+scrapy>=2.11          # optional crawling fallback (insightbot.ingestion.scrapy_crawler)
+
+# --- Preprocessing / extraction ---
+python-dateutil>=2.8
+PyYAML>=6.0
+
+# --- Storage ---
+pymongo>=4.6           # optional, only needed if INSIGHTBOT_DB_BACKEND=mongo
+SQLAlchemy>=2.0         # used for MySQL article backend + the app's own user DB
+PyMySQL>=1.1            # optional, only needed if INSIGHTBOT_DB_BACKEND=mysql
+
+# --- Scheduling ---
+APScheduler>=3.10
+
+# --- Backend API ---
+Flask>=3.0
+Flask-SQLAlchemy>=3.1
+Flask-JWT-Extended>=4.6
+Flask-Cors>=4.0
+python-dotenv>=1.0
+
+# --- Evaluation / dashboard ---
+# (difflib, csv, collections are stdlib; no extra deps required)
+
+# --- Testing ---
+pytest>=8.0

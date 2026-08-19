@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Article - InsightBot{% endblock %}
+{% block content %}
+<a href="/" class="back-link">&larr; Back to list</a>
+<article id="article-detail" class="card" data-article-id="{{ article_id }}">
+  <p class="message">Loading...</p>
+</article>
+{% endblock %}
+{% block scripts %}<script src="/static/js/detail.js"></script>{% endblock %}
