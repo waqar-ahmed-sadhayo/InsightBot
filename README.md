@@ -1,5 +1,10 @@
 # InsightBot
 
+**Live demo:** https://insightbot-sandy.vercel.app
+(deployed on Vercel; the user/bookmark database runs on ephemeral
+serverless storage there, so registrations and bookmarks may reset
+between requests -- see [Deployment](#deployment) below.)
+
 A rule-based (non-ML) multilingual news extraction pipeline and dashboard.
 Fetches raw HTML from a configured list of English/Arabic/Russian
 news/blog URLs, extracts `{title, body, date}` with a pattern-matching
@@ -7,11 +12,6 @@ heuristic engine, stores results to JSON/CSV plus an optional MongoDB or
 MySQL database, exposes a Flask REST API + server-rendered UI with
 admin-approved accounts, and exports aggregate stats for a Tableau
 dashboard.
-
-**Live demo:** https://insightbot-sandy.vercel.app
-(deployed on Vercel; the user/bookmark database runs on ephemeral
-serverless storage there, so registrations and bookmarks may reset
-between requests -- see [Deployment](#deployment) below.)
 
 **Out of scope (explicitly not implemented):** sentiment analysis, fake
 news detection, machine translation. The extraction engine is
