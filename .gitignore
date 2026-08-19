@@ -13,3 +13,6 @@ data/exports/*
 !data/processed/.gitkeep
 !data/exports/.gitkeep
 *.db
+
+.vercel
+.env*
