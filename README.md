@@ -8,10 +8,15 @@ MySQL database, exposes a Flask REST API + server-rendered UI with
 admin-approved accounts, and exports aggregate stats for a Tableau
 dashboard.
 
+**Live demo:** https://insightbot-sandy.vercel.app
+(deployed on Vercel; the user/bookmark database runs on ephemeral
+serverless storage there, so registrations and bookmarks may reset
+between requests -- see [Deployment](#deployment) below.)
+
 **Out of scope (explicitly not implemented):** sentiment analysis, fake
-news detection, machine translation, live web hosting/deployment. The
-extraction engine is rule-based throughout -- no ML/NLP models are used
-to identify title/body/date.
+news detection, machine translation. The extraction engine is
+rule-based throughout -- no ML/NLP models are used to identify
+title/body/date.
 
 ---
 
@@ -118,6 +123,38 @@ python scripts/run_evaluation.py
 ```bash
 pytest tests/ -v
 ```
+
+---
+
+## Deployment
+
+**Live:** https://insightbot-sandy.vercel.app
+
+The web app (`insightbot/api/app.py`, Flask) is deployed to Vercel as a
+Python serverless function:
+
+- `api/index.py` -- entrypoint that imports and exposes `app`
+- `api/requirements.txt` -- a trimmed dependency list (just the Flask
+  stack + PyYAML; the ingestion side's `scrapy`/`pymongo`/`PyMySQL` are
+  never imported by the web app, so they're left out of the deployed
+  bundle)
+- `vercel.json` -- routes every request to `api/index.py`
+- `data/processed/articles.{json,csv}` are committed (force-added past
+  `.gitignore`) so the live site has real seeded articles to show
+
+Required production env vars (`vercel env add <NAME> production`):
+`INSIGHTBOT_SECRET_KEY`, `INSIGHTBOT_ADMIN_EMAIL`,
+`INSIGHTBOT_ADMIN_PASSWORD`, `INSIGHTBOT_DB_BACKEND=none`, and
+`INSIGHTBOT_SQLALCHEMY_URI=sqlite:////tmp/insightbot_app.db`.
+
+**Known limitation:** Vercel's Python runtime has a read-only filesystem
+except `/tmp`, and `/tmp` is not shared across serverless instances or
+persisted between cold starts. Article browsing/search/filters are
+unaffected (that data ships with the deployment bundle), but the
+user/bookmark SQLite database lives in `/tmp`, so registrations,
+approvals, and bookmarks can reset unpredictably between requests. For
+reliable auth in production, point `INSIGHTBOT_SQLALCHEMY_URI` at a real
+hosted database (e.g. Postgres on Neon/Supabase) instead.
 
 ---
 
