@@ -12,6 +12,7 @@ PyYAML>=6.0
 pymongo>=4.6           # optional, only needed if INSIGHTBOT_DB_BACKEND=mongo
 SQLAlchemy>=2.0         # used for MySQL article backend + the app's own user DB
 PyMySQL>=1.1            # optional, only needed if INSIGHTBOT_DB_BACKEND=mysql
+psycopg2-binary>=2.9    # Postgres driver for the app's own user/bookmark DB (INSIGHTBOT_SQLALCHEMY_URI)
 
 # --- Scheduling ---
 APScheduler>=3.10
