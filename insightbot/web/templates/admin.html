@@ -1,11 +1,38 @@
 {% extends "base.html" %}
+{% from "_macros.html" import error_banner, stat_card %}
 {% block title %}Admin - InsightBot{% endblock %}
 {% block content %}
-<div class="page-header">
-  <h1>Pending approvals</h1>
-  <p>New registrations wait here until an admin approves them.</p>
+<div class="mb-8">
+  <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-background dark:text-surface-bright">Admin dashboard</h1>
+  <p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant mt-1">System overview and pending registrations.</p>
 </div>
-<div id="admin-gate" class="message"></div>
-<ul id="pending-list" class="article-list"></ul>
+
+{{ error_banner("admin-gate") }}
+
+<div id="admin-body" class="space-y-6">
+  <section id="stats-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-gutter"></section>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <section class="lg:col-span-2 bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-xl p-6">
+      <h3 class="font-headline-md text-headline-md font-semibold text-on-surface dark:text-surface-bright mb-6">Managing sources</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-start border-collapse">
+          <thead>
+            <tr class="border-b border-outline-variant dark:border-outline">
+              <th class="py-3 px-2 text-start font-label-md text-label-md text-on-surface-variant dark:text-outline-variant">Domain</th>
+              <th class="py-3 px-2 text-end font-label-md text-label-md text-on-surface-variant dark:text-outline-variant">Articles</th>
+            </tr>
+          </thead>
+          <tbody id="sources-body" class="font-body-md text-body-md"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-xl p-6 flex flex-col">
+      <h3 class="font-headline-md text-headline-md font-semibold text-on-surface dark:text-surface-bright mb-6">Pending approvals</h3>
+      <ul id="pending-list" class="space-y-3 flex-grow"></ul>
+    </section>
+  </div>
+</div>
 {% endblock %}
 {% block scripts %}<script src="/static/js/admin.js"></script>{% endblock %}

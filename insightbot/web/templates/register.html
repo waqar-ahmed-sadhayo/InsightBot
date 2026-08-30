@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Register - InsightBot{% endblock %}
 {% block content %}
-<div class="auth-shell">
-  <div class="card auth-card">
-    <img class="auth-icon" src="/static/img/icon-128.png" alt="InsightBot">
-    <h1>Create an account</h1>
-    <p class="auth-sub">An admin will need to approve your account before you can log in.</p>
-    <form id="register-form">
-      <label>Email<input type="email" name="email" autocomplete="email" required></label>
-      <label>Password (min 8 characters)<input type="password" name="password" minlength="8" autocomplete="new-password" required></label>
-      <button type="submit">Register</button>
+<div class="min-h-[70vh] flex items-center justify-center">
+  <div class="w-full max-w-sm bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-xl shadow-sm p-8 text-center">
+    <img class="w-14 h-14 rounded-xl mx-auto mb-4" src="/static/img/icon-128.png" alt="InsightBot">
+    <h1 class="font-headline-md text-headline-md font-bold text-on-surface dark:text-surface-bright">Create an account</h1>
+    <p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant mt-1 mb-6">An admin will need to approve your account before you can log in.</p>
+    <form id="register-form" class="space-y-4 text-start">
+      <label class="block">
+        <span class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant">Email</span>
+        <input type="email" name="email" autocomplete="email" required
+          class="mt-1 w-full h-11 px-3 bg-surface dark:bg-surface-dim/10 border border-outline-variant dark:border-outline rounded-lg text-body-md text-on-surface dark:text-surface-bright focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+      </label>
+      <label class="block">
+        <span class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant">Password (min 8 characters)</span>
+        <input type="password" name="password" minlength="8" autocomplete="new-password" required
+          class="mt-1 w-full h-11 px-3 bg-surface dark:bg-surface-dim/10 border border-outline-variant dark:border-outline rounded-lg text-body-md text-on-surface dark:text-surface-bright focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+      </label>
+      <button type="submit" class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">Register</button>
     </form>
-    <p id="register-message" class="message"></p>
-    <p>Already approved? <a href="/login">Log in</a></p>
+    <p id="register-message" class="font-body-md text-body-md mt-4"></p>
+    <p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant mt-4">Already approved? <a href="/login" class="text-primary dark:text-primary-fixed-dim hover:underline">Log in</a></p>
   </div>
 </div>
 {% endblock %}

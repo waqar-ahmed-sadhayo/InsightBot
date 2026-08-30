@@ -1,31 +1,49 @@
 {% extends "base.html" %}
+{% from "_macros.html" import error_banner, skeleton_card %}
 {% block title %}Articles - InsightBot{% endblock %}
 {% block content %}
-<div class="page-header">
-  <h1>Extracted articles</h1>
-  <p>Rule-based extraction results across English, Arabic, and Russian sources.</p>
+<div class="mb-6">
+  <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-background dark:text-surface-bright">
+    <span id="page-heading">Extracted articles</span>
+  </h1>
+  <p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant mt-1">Rule-based extraction results across English, Arabic, and Russian sources.</p>
 </div>
-<div id="gate-message" class="message"></div>
-<div class="articles-toolbar card">
-  <div class="stats-row" id="stats-row"></div>
-  <div class="filter-bar">
-    <div class="control select-wrap">
-      <svg class="select-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16l-6.2 7.2v5.6l-3.6 1.8v-7.4L4 5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      <select id="domain-filter" title="Filter by domain">
+
+{{ error_banner("gate-message") }}
+{{ error_banner("list-error") }}
+
+<div id="stats-row" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"></div>
+
+<section class="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+  <div id="lang-pills" class="flex flex-wrap items-center gap-2">
+    <span class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant uppercase tracking-wider me-1">Language</span>
+    <button type="button" data-lang="" class="lang-pill px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors">All</button>
+    <button type="button" data-lang="en" class="lang-pill px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors">EN</button>
+    <button type="button" data-lang="ar" class="lang-pill px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors">AR</button>
+    <button type="button" data-lang="ru" class="lang-pill px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors">RU</button>
+  </div>
+  <div class="flex items-center gap-2 w-full sm:w-auto">
+    <div class="relative w-full sm:w-48">
+      <select id="domain-filter" title="Filter by domain"
+        class="w-full appearance-none bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-lg ps-3 pe-8 py-2 font-body-md text-body-md text-on-surface dark:text-surface-bright focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
         <option value="">All domains</option>
       </select>
+      <span class="material-symbols-outlined absolute end-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[20px]" aria-hidden="true">expand_more</span>
     </div>
-    <button id="saved-toggle" class="chip" type="button">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 6-5.2-2.8-5.2 2.8 1-6-4.3-4.2 5.9-.8L12 3.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    <button id="saved-toggle" type="button"
+      class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant dark:border-outline text-on-surface-variant dark:text-outline-variant font-label-md text-label-md whitespace-nowrap transition-colors">
+      <span class="material-symbols-outlined text-[18px]" aria-hidden="true">bookmark</span>
       Saved
     </button>
   </div>
-</div>
-<ul id="article-list" class="article-list"></ul>
-<div class="pager">
-  <button id="prev-page">&laquo; Prev</button>
-  <span id="page-indicator"></span>
-  <button id="next-page">Next &raquo;</button>
+</section>
+
+<section id="article-list" class="grid grid-cols-1 gap-4"></section>
+
+<div id="pager" class="flex items-center justify-center gap-4 mt-8">
+  <button id="prev-page" type="button" class="px-4 py-2 rounded-lg border border-outline-variant dark:border-outline text-on-surface dark:text-surface-bright font-label-md text-label-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-surface-container-high dark:hover:bg-on-surface-variant/30 transition-colors">&laquo; Prev</button>
+  <span id="page-indicator" class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant"></span>
+  <button id="next-page" type="button" class="px-4 py-2 rounded-lg border border-outline-variant dark:border-outline text-on-surface dark:text-surface-bright font-label-md text-label-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-surface-container-high dark:hover:bg-on-surface-variant/30 transition-colors">Next &raquo;</button>
 </div>
 {% endblock %}
 {% block scripts %}<script src="/static/js/articles.js"></script>{% endblock %}

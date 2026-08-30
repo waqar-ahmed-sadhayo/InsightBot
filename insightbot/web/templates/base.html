@@ -8,77 +8,217 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <script>
     (function () {
-      var saved = localStorage.getItem("insightbot_theme");
-      if (saved) document.documentElement.setAttribute("data-theme", saved);
+      var THEME_KEY = "insightbot_theme";
+      var saved = localStorage.getItem(THEME_KEY);
+      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var theme = saved || (prefersDark ? "dark" : "light");
+      if (theme === "dark") document.documentElement.classList.add("dark");
+      var dirPref = localStorage.getItem("insightbot_dir");
+      if (dirPref === "rtl") document.documentElement.setAttribute("dir", "rtl");
     })();
   </script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f9f9ff",
+            "surface-dim": "#d3daef",
+            "surface-bright": "#f9f9ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f1f3ff",
+            "surface-container": "#e9edff",
+            "surface-container-high": "#e1e8fd",
+            "surface-container-highest": "#dce2f7",
+            "on-surface": "#141b2b",
+            "on-surface-variant": "#494454",
+            "inverse-surface": "#293040",
+            "inverse-on-surface": "#edf0ff",
+            "outline": "#7b7486",
+            "outline-variant": "#cbc3d7",
+            "surface-tint": "#6d3bd7",
+            "primary": "#6b38d4",
+            "on-primary": "#ffffff",
+            "primary-container": "#8455ef",
+            "on-primary-container": "#fffbff",
+            "inverse-primary": "#d0bcff",
+            "secondary": "#006b5f",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#6df5e1",
+            "on-secondary-container": "#006f64",
+            "tertiary": "#b90538",
+            "on-tertiary": "#ffffff",
+            "tertiary-container": "#dc2c4f",
+            "on-tertiary-container": "#fffbff",
+            "error": "#ba1a1a",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "primary-fixed": "#e9ddff",
+            "primary-fixed-dim": "#d0bcff",
+            "on-primary-fixed": "#23005c",
+            "on-primary-fixed-variant": "#5516be",
+            "secondary-fixed": "#71f8e4",
+            "secondary-fixed-dim": "#4fdbc8",
+            "on-secondary-fixed": "#00201c",
+            "on-secondary-fixed-variant": "#005048",
+            "tertiary-fixed": "#ffdadb",
+            "tertiary-fixed-dim": "#ffb2b7",
+            "on-tertiary-fixed": "#40000d",
+            "on-tertiary-fixed-variant": "#92002a",
+            "background": "#f9f9ff",
+            "on-background": "#141b2b",
+            "surface-variant": "#dce2f7"
+          },
+          borderRadius: { sm: "4px", DEFAULT: "8px", md: "12px", lg: "16px", xl: "24px", full: "9999px" },
+          spacing: {
+            "sidebar-width": "260px",
+            "header-height": "72px",
+            "container-max": "1440px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "32px"
+          },
+          fontFamily: {
+            sans: ["Inter", "Noto Sans Arabic", "-apple-system", "Segoe UI", "sans-serif"],
+            "body-md": ["Inter", "Noto Sans Arabic"],
+            "label-sm": ["Inter", "Noto Sans Arabic"],
+            "label-md": ["Inter", "Noto Sans Arabic"],
+            "headline-lg-mobile": ["Inter", "Noto Sans Arabic"],
+            "body-lg": ["Inter", "Noto Sans Arabic"],
+            "headline-lg": ["Inter", "Noto Sans Arabic"],
+            "headline-md": ["Inter", "Noto Sans Arabic"]
+          },
+          fontSize: {
+            "body-md": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+            "label-sm": ["12px", { lineHeight: "1", fontWeight: "500" }],
+            "label-md": ["13px", { lineHeight: "1", letterSpacing: "0.01em", fontWeight: "600" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "1.2", fontWeight: "700" }],
+            "body-lg": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+            "headline-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-md": ["20px", { lineHeight: "1.3", fontWeight: "600" }]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="/static/css/custom.css">
 </head>
-<body>
-  <div class="bg-glow" aria-hidden="true"></div>
-  <div class="app-shell">
-    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
-    <aside class="sidebar" id="sidebar">
-      <a class="brand" href="/">
-        <img class="brand-mark" src="/static/img/icon-128.png" alt="InsightBot">
-        <span class="brand-name">InsightBot</span>
-      </a>
-      <nav class="sidebar-nav">
-        <a href="/" class="sidebar-link" data-path="/">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1.2" stroke="currentColor" stroke-width="2"/><rect x="3" y="10" width="18" height="4" rx="1.2" stroke="currentColor" stroke-width="2"/><rect x="3" y="16" width="18" height="4" rx="1.2" stroke="currentColor" stroke-width="2"/></svg>
-          <span>Articles</span>
-        </a>
-        <a href="/?saved=true" class="sidebar-link" data-path="/?saved=true" data-auth-only>
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 6-5.2-2.8-5.2 2.8 1-6-4.3-4.2 5.9-.8L12 3.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-          <span>Saved</span>
-        </a>
-        <a href="/admin" class="sidebar-link" data-path="/admin" data-admin-only>
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Admin</span>
-        </a>
-      </nav>
-      <div class="sidebar-footer">
-        <a href="/login" class="sidebar-link" data-guest-only>
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Log in</span>
-        </a>
-      </div>
-    </aside>
-    <div class="main-col">
-      <header class="topbar">
-        <button id="sidebar-toggle" class="icon-btn sidebar-toggle-btn" type="button" aria-label="Toggle menu">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
-        <nav class="topnav">
-          <div class="control select-wrap">
-            <svg class="select-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M4 12h16M12 4c2.4 2.4 3.3 5.3 3.3 8s-.9 5.6-3.3 8c-2.4-2.4-3.3-5.3-3.3-8s.9-5.6 3.3-8z" stroke="currentColor" stroke-width="1.8"/></svg>
-            <select id="lang-toggle" title="Filter by language">
-              <option value="">All languages</option>
-              <option value="en">English</option>
-              <option value="ar">Arabic</option>
-              <option value="ru">Russian</option>
-            </select>
-          </div>
-          <div class="control search-wrap">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            <input id="search-box" type="search" placeholder="Search articles...">
-          </div>
-          <span class="topnav-divider" aria-hidden="true"></span>
-          <button id="theme-toggle" class="icon-btn" type="button" title="Toggle theme" aria-label="Toggle theme">
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-          </button>
-          <span id="auth-area"></span>
-        </nav>
-      </header>
-      <main class="content">
-        {% block content %}{% endblock %}
-      </main>
+<body class="bg-background dark:bg-on-background text-on-background dark:text-surface-bright font-body-md antialiased min-h-screen pb-16 md:pb-0 md:ps-sidebar-width selection:bg-primary-container selection:text-on-primary-container">
+
+  <!-- Desktop sidebar -->
+  <nav id="sidebar" class="hidden md:flex w-sidebar-width h-full fixed start-0 top-0 z-40 bg-surface-container-lowest dark:bg-inverse-surface border-e border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex-col gap-1 p-4">
+    <a href="/" class="flex items-center gap-2 mb-6 px-2 py-2">
+      <img class="w-8 h-8 rounded-lg" src="/static/img/icon-128.png" alt="">
+      <span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">InsightBot</span>
+    </a>
+    <a href="/" data-path="/" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40 transition-colors">
+      <span class="material-symbols-outlined" aria-hidden="true">article</span>
+      <span class="font-body-md text-body-md">Articles</span>
+    </a>
+    <a href="/?saved=true" data-path="/?saved=true" data-auth-only class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40 transition-colors">
+      <span class="material-symbols-outlined" aria-hidden="true">bookmark</span>
+      <span class="font-body-md text-body-md">Saved</span>
+    </a>
+    <a href="/admin" data-path="/admin" data-admin-only class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40 transition-colors">
+      <span class="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span>
+      <span class="font-body-md text-body-md">Admin</span>
+    </a>
+    <a href="/login" data-guest-only class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40 transition-colors">
+      <span class="material-symbols-outlined" aria-hidden="true">login</span>
+      <span class="font-body-md text-body-md">Log in</span>
+    </a>
+    <div class="mt-auto flex items-center gap-3 px-4 py-3 border-t border-outline-variant dark:border-outline pt-4" id="sidebar-user"></div>
+  </nav>
+
+  <!-- Mobile sidebar drawer -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+  <nav id="sidebar-mobile" class="sidebar-drawer md:hidden fixed top-0 start-0 h-full w-[260px] z-50 bg-surface-container-lowest dark:bg-inverse-surface p-4 flex flex-col gap-1">
+    <div class="flex items-center gap-2 mb-6 px-2 py-2">
+      <img class="w-8 h-8 rounded-lg" src="/static/img/icon-128.png" alt="">
+      <span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">InsightBot</span>
     </div>
+    <a href="/" data-path="/" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40">
+      <span class="material-symbols-outlined" aria-hidden="true">article</span><span>Articles</span>
+    </a>
+    <a href="/?saved=true" data-path="/?saved=true" data-auth-only class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40">
+      <span class="material-symbols-outlined" aria-hidden="true">bookmark</span><span>Saved</span>
+    </a>
+    <a href="/admin" data-path="/admin" data-admin-only class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40">
+      <span class="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span><span>Admin</span>
+    </a>
+    <a href="/login" data-guest-only class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant/40">
+      <span class="material-symbols-outlined" aria-hidden="true">login</span><span>Log in</span>
+    </a>
+  </nav>
+
+  <div class="main-col">
+    <!-- Top bar -->
+    <header class="sticky top-0 w-full z-30 h-header-height bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex items-center gap-2 px-margin-mobile md:px-margin-desktop">
+      <button id="sidebar-toggle" type="button" class="md:hidden text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-on-surface-variant/40 rounded-full p-2 transition-colors" aria-label="Toggle menu">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+      <div class="flex-1 flex items-center gap-3 max-w-xl">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute start-3 top-1/2 -translate-y-1/2 text-outline text-[20px] pointer-events-none" aria-hidden="true">search</span>
+          <input id="search-box" type="search" placeholder="Search articles..."
+            class="w-full h-11 ps-10 pe-14 bg-surface-container-lowest dark:bg-surface-dim/10 border border-outline-variant dark:border-outline rounded-full font-body-md text-body-md text-on-surface dark:text-surface-bright placeholder-on-surface-variant/60 dark:placeholder-outline-variant/70 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+          <kbd class="hidden sm:flex items-center gap-0.5 absolute end-2 top-1/2 -translate-y-1/2 text-[11px] text-on-surface-variant dark:text-outline-variant border border-outline-variant dark:border-outline rounded px-1.5 py-0.5 pointer-events-none">⌘K</kbd>
+        </div>
+      </div>
+      <div class="flex items-center gap-1 md:gap-2">
+        <div class="relative">
+          <button id="lang-menu-btn" type="button" class="flex items-center gap-1 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-on-surface-variant/40 rounded-full px-2.5 py-2 transition-colors" aria-label="Interface direction">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">language</span>
+            <span id="lang-menu-label" class="font-label-md text-label-md hidden sm:inline">All</span>
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">expand_more</span>
+          </button>
+          <div id="lang-menu" class="hidden absolute end-0 mt-1 w-48 bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-lg shadow-lg py-1 z-50">
+            <button type="button" data-lang="" class="lang-option w-full text-start px-3 py-2 text-body-md hover:bg-surface-container dark:hover:bg-on-surface-variant/40">Default (LTR)</button>
+            <button type="button" data-lang="en" class="lang-option w-full text-start px-3 py-2 text-body-md hover:bg-surface-container dark:hover:bg-on-surface-variant/40">English</button>
+            <button type="button" data-lang="ar" class="lang-option w-full text-start px-3 py-2 text-body-md hover:bg-surface-container dark:hover:bg-on-surface-variant/40">العربية (RTL)</button>
+            <button type="button" data-lang="ru" class="lang-option w-full text-start px-3 py-2 text-body-md hover:bg-surface-container dark:hover:bg-on-surface-variant/40">Русский</button>
+          </div>
+        </div>
+        <button id="theme-toggle" type="button" class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-on-surface-variant/40 rounded-full p-2 transition-colors" aria-label="Toggle theme">
+          <span class="material-symbols-outlined icon-sun" aria-hidden="true">light_mode</span>
+          <span class="material-symbols-outlined icon-moon" aria-hidden="true">dark_mode</span>
+        </button>
+        <span id="auth-area"></span>
+      </div>
+    </header>
+
+    <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6">
+      {% block content %}{% endblock %}
+    </main>
   </div>
+
+  <!-- Mobile bottom nav -->
+  <nav class="bottom-nav fixed bottom-0 w-full z-40 md:hidden bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline flex justify-around items-center h-16 px-2">
+    <a href="/" data-path="/" class="sidebar-link flex flex-col items-center justify-center gap-0.5 flex-1 h-full rounded-lg text-on-surface-variant dark:text-outline-variant">
+      <span class="material-symbols-outlined" aria-hidden="true">article</span>
+      <span class="font-label-sm text-label-sm">Articles</span>
+    </a>
+    <a href="/?saved=true" data-path="/?saved=true" data-auth-only class="sidebar-link flex flex-col items-center justify-center gap-0.5 flex-1 h-full rounded-lg text-on-surface-variant dark:text-outline-variant">
+      <span class="material-symbols-outlined" aria-hidden="true">bookmark</span>
+      <span class="font-label-sm text-label-sm">Saved</span>
+    </a>
+    <a href="/admin" data-path="/admin" data-admin-only class="sidebar-link flex flex-col items-center justify-center gap-0.5 flex-1 h-full rounded-lg text-on-surface-variant dark:text-outline-variant">
+      <span class="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span>
+      <span class="font-label-sm text-label-sm">Admin</span>
+    </a>
+    <a href="/login" data-guest-only class="sidebar-link flex flex-col items-center justify-center gap-0.5 flex-1 h-full rounded-lg text-on-surface-variant dark:text-outline-variant">
+      <span class="material-symbols-outlined" aria-hidden="true">login</span>
+      <span class="font-label-sm text-label-sm">Log in</span>
+    </a>
+  </nav>
+
   <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
   <script src="/static/js/app.js"></script>
   {% block scripts %}{% endblock %}

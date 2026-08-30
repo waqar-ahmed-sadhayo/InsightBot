@@ -3,7 +3,8 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   const form = e.target;
   const msg = document.getElementById("login-message");
   msg.textContent = "";
-  msg.className = "message";
+  msg.className = "font-body-md text-body-md mt-4";
+  msg.style.color = "";
 
   try {
     const data = await InsightBot.api("/api/auth/login", {
@@ -17,6 +18,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     window.location.href = "/";
   } catch (err) {
     msg.textContent = err.message;
-    msg.className = "message error";
+    msg.className = "font-body-md text-body-md mt-4 font-medium";
+    msg.style.color = "#991B1B";
   }
 });
