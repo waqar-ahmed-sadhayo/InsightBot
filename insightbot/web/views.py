@@ -5,6 +5,8 @@ same API is exercised identically by the browser UI, curl, and tests.
 """
 from flask import Blueprint, render_template
 
+from insightbot import settings
+
 bp = Blueprint("web", __name__)
 
 
@@ -15,7 +17,13 @@ def index():
 
 @bp.get("/login")
 def login_page():
-    return render_template("login.html")
+    show_demo = settings.SHOW_DEMO_CREDENTIALS and bool(settings.DEMO_ACCOUNT_PASSWORD)
+    return render_template(
+        "login.html",
+        show_demo_credentials=show_demo,
+        demo_email=settings.DEMO_ACCOUNT_EMAIL,
+        demo_password=settings.DEMO_ACCOUNT_PASSWORD,
+    )
 
 
 @bp.get("/register")

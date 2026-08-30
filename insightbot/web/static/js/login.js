@@ -11,6 +11,19 @@
   });
 })();
 
+document.querySelectorAll(".demo-copy-btn").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(btn.dataset.copy);
+      const icon = btn.querySelector(".material-symbols-outlined");
+      icon.textContent = "check";
+      setTimeout(() => { icon.textContent = "content_copy"; }, 1200);
+    } catch (err) {
+      InsightBot.toast("Could not copy", "error");
+    }
+  });
+});
+
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = e.target;

@@ -70,6 +70,14 @@ SQLALCHEMY_DATABASE_URI = os.getenv(
 BOOTSTRAP_ADMIN_EMAIL = os.getenv("INSIGHTBOT_ADMIN_EMAIL", "")
 BOOTSTRAP_ADMIN_PASSWORD = os.getenv("INSIGHTBOT_ADMIN_PASSWORD", "")
 
+# --- Demo credentials hint on the login page -------------------------------
+# Off by default everywhere. Only flip this on (e.g. temporarily on Vercel)
+# when you want an interviewer/reviewer to self-serve login -- the values
+# shown are a dedicated low-privilege demo account, never the real admin.
+SHOW_DEMO_CREDENTIALS = os.getenv("INSIGHTBOT_SHOW_DEMO_CREDENTIALS", "false").lower() == "true"
+DEMO_ACCOUNT_EMAIL = os.getenv("INSIGHTBOT_DEMO_EMAIL", "demo@insightbot.dev")
+DEMO_ACCOUNT_PASSWORD = os.getenv("INSIGHTBOT_DEMO_PASSWORD", "")
+
 # --- Scheduler -------------------------------------------------------------
 DAILY_RUN_HOUR = int(os.getenv("INSIGHTBOT_DAILY_RUN_HOUR", "3"))
 DAILY_RUN_MINUTE = int(os.getenv("INSIGHTBOT_DAILY_RUN_MINUTE", "0"))
