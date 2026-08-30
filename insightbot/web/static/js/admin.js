@@ -61,15 +61,15 @@
 
   function renderRow(u) {
     const li = document.createElement("li");
-    li.className = "bg-surface-container dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-lg p-4 flex items-center justify-between gap-3 transition-opacity";
+    li.className = "bg-surface-container dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-lg p-4 flex flex-col gap-3 transition-opacity";
     li.innerHTML = `
       <div class="min-w-0">
-        <p class="font-label-md text-label-md text-on-surface dark:text-[#f8fafc] truncate">${escapeHtml(u.email)}</p>
+        <p class="font-label-md text-label-md text-on-surface dark:text-[#f8fafc] break-all">${escapeHtml(u.email)}</p>
         <p class="font-label-sm text-label-sm text-on-surface-variant dark:text-[#94a3b8] mt-0.5">requested ${escapeHtml((u.created_at || "").slice(0, 10))}</p>
       </div>
-      <div class="flex items-center gap-2 flex-shrink-0">
-        <button type="button" class="reject-btn px-3 py-1.5 rounded-lg border border-error/40 text-error dark:text-rose-300 font-label-md text-label-md hover:bg-error-container/20 transition-colors" data-id="${u.id}">Reject</button>
-        <button type="button" class="approve-btn px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors" data-id="${u.id}">Approve</button>
+      <div class="flex items-center gap-2">
+        <button type="button" class="reject-btn flex-1 px-3 py-1.5 rounded-lg border border-error/40 text-error dark:text-rose-300 font-label-md text-label-md hover:bg-error-container/20 transition-colors" data-id="${u.id}">Reject</button>
+        <button type="button" class="approve-btn flex-1 px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors" data-id="${u.id}">Approve</button>
       </div>
     `;
     li.querySelector(".approve-btn").addEventListener("click", async (e) => {
