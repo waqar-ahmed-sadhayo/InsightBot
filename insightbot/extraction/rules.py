@@ -26,6 +26,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Optional
+from urllib.parse import urljoin
 
 from bs4 import Tag
 
@@ -46,9 +47,11 @@ class ExtractedArticle:
     date: Optional[str]
     language: str
     source_url: str
+    image: Optional[str] = None
     title_method: str = "none"
     body_method: str = "none"
     date_method: str = "none"
+    image_method: str = "none"
     warnings: list = field(default_factory=list)
 
 
@@ -244,6 +247,42 @@ def extract_date(soup, rule: DomainRule) -> tuple[Optional[str], str]:
 
 
 # --------------------------------------------------------------------------
+# IMAGE
+# --------------------------------------------------------------------------
+
+_IMAGE_META_CANDIDATES = [
+    ("meta", {"property": "og:image"}, "content"),
+    ("meta", {"property": "og:image:url"}, "content"),
+    ("meta", {"name": "twitter:image"}, "content"),
+    ("meta", {"name": "twitter:image:src"}, "content"),
+]
+
+
+def extract_image(soup, url: str, rule: DomainRule) -> tuple[Optional[str], str]:
+    """A real cover image pulled from the page's own metadata -- never a
+    fabricated/stock photo. Most sites publish og:image for social-share
+    previews, which is exactly the "representative image" a reader would
+    expect next to the headline."""
+    if rule.image_selector:
+        try:
+            el = soup.select_one(rule.image_selector)
+            src = el.get("src") if el is not None else None
+            if src:
+                return urljoin(url, src.strip()), "domain_rule"
+        except Exception:
+            pass
+
+    for tag_name, attrs, attr in _IMAGE_META_CANDIDATES:
+        el = soup.find(tag_name, attrs=attrs)
+        if el is not None:
+            raw = el.get(attr)
+            if raw and raw.strip():
+                return urljoin(url, raw.strip()), "meta_tag"
+
+    return None, "none"
+
+
+# --------------------------------------------------------------------------
 # ORCHESTRATOR
 # --------------------------------------------------------------------------
 
@@ -270,14 +309,22 @@ def extract_article(soup, url: str, language: str, rule: DomainRule) -> Extracte
         date, date_method = None, "error"
         warnings.append(f"date extraction failed: {exc}")
 
+    try:
+        image, image_method = extract_image(soup, url, rule)
+    except Exception as exc:
+        image, image_method = None, "error"
+        warnings.append(f"image extraction failed: {exc}")
+
     return ExtractedArticle(
         title=title,
         body=body,
         date=date,
         language=language,
         source_url=url,
+        image=image,
         title_method=title_method,
         body_method=body_method,
         date_method=date_method,
+        image_method=image_method,
         warnings=warnings,
     )

@@ -4,7 +4,6 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
   const msg = document.getElementById("register-message");
   msg.textContent = "";
   msg.className = "font-body-md text-body-md mt-4";
-  msg.style.color = "";
 
   try {
     await InsightBot.api("/api/auth/register", {
@@ -15,12 +14,10 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
       }),
     });
     msg.textContent = "Registered. An admin must approve your account before you can log in.";
-    msg.className = "font-body-md text-body-md mt-4 font-medium";
-    msg.style.color = "#006b5f";
+    msg.className = "font-body-md text-body-md mt-4 font-medium text-emerald-600 dark:text-emerald-400";
     form.reset();
   } catch (err) {
     msg.textContent = err.message;
-    msg.className = "font-body-md text-body-md mt-4 font-medium";
-    msg.style.color = "#991B1B";
+    msg.className = "font-body-md text-body-md mt-4 font-medium text-red-600 dark:text-rose-300";
   }
 });

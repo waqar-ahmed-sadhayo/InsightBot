@@ -16,7 +16,7 @@ from insightbot import settings
 
 FIELDNAMES = [
     "id", "title", "body", "date", "language", "source_url", "domain",
-    "fetched_at", "title_method", "body_method", "date_method",
+    "image", "fetched_at", "title_method", "body_method", "date_method", "image_method",
 ]
 
 JSON_PATH = settings.PROCESSED_DIR / "articles.json"

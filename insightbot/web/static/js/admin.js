@@ -30,12 +30,12 @@
 
   function statCard(icon, label, value) {
     return `
-      <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-xl p-6 flex flex-col">
+      <div class="bg-surface-container-lowest dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-xl p-6 flex flex-col">
         <div class="flex justify-between items-start mb-4">
-          <span class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant uppercase tracking-wider">${label}</span>
-          <span class="material-symbols-outlined text-primary dark:text-primary-fixed bg-primary-fixed dark:bg-primary-fixed-dim/30 rounded-full p-2" aria-hidden="true">${icon}</span>
+          <span class="font-label-md text-label-md text-on-surface-variant dark:text-[#94a3b8] uppercase tracking-wider">${label}</span>
+          <span class="material-symbols-outlined text-primary dark:text-primary-fixed bg-primary-fixed dark:bg-[#5516be]/30 rounded-full p-2" aria-hidden="true">${icon}</span>
         </div>
-        <span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface dark:text-surface-bright">${value}</span>
+        <span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface dark:text-[#f8fafc]">${value}</span>
       </div>`;
   }
 
@@ -48,11 +48,11 @@
       ].join("");
       sourcesBody.innerHTML = stats.by_domain.length
         ? stats.by_domain.map(([domain, count]) => `
-            <tr class="border-b border-outline-variant dark:border-outline last:border-0 hover:bg-surface-container-low dark:hover:bg-on-surface-variant/20 transition-colors">
-              <td class="py-3 px-2 font-medium text-on-surface dark:text-surface-bright">${escapeHtml(domain || "(unknown)")}</td>
-              <td class="py-3 px-2 text-end text-on-surface-variant dark:text-outline-variant">${count}</td>
+            <tr class="border-b border-outline-variant dark:border-[#334155] last:border-0 hover:bg-surface-container-low dark:hover:bg-[#334155]/70 transition-colors">
+              <td class="py-3 px-2 font-medium text-on-surface dark:text-[#f8fafc]">${escapeHtml(domain || "(unknown)")}</td>
+              <td class="py-3 px-2 text-end text-on-surface-variant dark:text-[#94a3b8]">${count}</td>
             </tr>`).join("")
-        : `<tr><td colspan="2" class="py-6 text-center text-on-surface-variant dark:text-outline-variant">No sources yet -- run the ingestion pipeline.</td></tr>`;
+        : `<tr><td colspan="2" class="py-6 text-center text-on-surface-variant dark:text-[#94a3b8]">No sources yet -- run the ingestion pipeline.</td></tr>`;
     } catch (err) {
       statsGrid.innerHTML = "";
       InsightBot.toast(err.message, "error");
@@ -61,14 +61,14 @@
 
   function renderRow(u) {
     const li = document.createElement("li");
-    li.className = "bg-surface-container dark:bg-surface-dim/10 border border-outline-variant dark:border-outline rounded-lg p-4 flex items-center justify-between gap-3 transition-opacity";
+    li.className = "bg-surface-container dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-lg p-4 flex items-center justify-between gap-3 transition-opacity";
     li.innerHTML = `
       <div class="min-w-0">
-        <p class="font-label-md text-label-md text-on-surface dark:text-surface-bright truncate">${escapeHtml(u.email)}</p>
-        <p class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant mt-0.5">requested ${escapeHtml((u.created_at || "").slice(0, 10))}</p>
+        <p class="font-label-md text-label-md text-on-surface dark:text-[#f8fafc] truncate">${escapeHtml(u.email)}</p>
+        <p class="font-label-sm text-label-sm text-on-surface-variant dark:text-[#94a3b8] mt-0.5">requested ${escapeHtml((u.created_at || "").slice(0, 10))}</p>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0">
-        <button type="button" class="reject-btn px-3 py-1.5 rounded-lg border border-error/40 text-error dark:text-tertiary-fixed font-label-md text-label-md hover:bg-error-container/20 transition-colors" data-id="${u.id}">Reject</button>
+        <button type="button" class="reject-btn px-3 py-1.5 rounded-lg border border-error/40 text-error dark:text-rose-300 font-label-md text-label-md hover:bg-error-container/20 transition-colors" data-id="${u.id}">Reject</button>
         <button type="button" class="approve-btn px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors" data-id="${u.id}">Approve</button>
       </div>
     `;
@@ -108,7 +108,7 @@
 
   function maybeShowEmpty() {
     if (!list.children.length) {
-      list.innerHTML = `<li class="text-center py-6 font-body-md text-body-md text-on-surface-variant dark:text-outline-variant">No pending registrations. New sign-ups will show up here.</li>`;
+      list.innerHTML = `<li class="text-center py-6 font-body-md text-body-md text-on-surface-variant dark:text-[#94a3b8]">No pending registrations. New sign-ups will show up here.</li>`;
     }
   }
 
@@ -120,7 +120,7 @@
       pending.forEach((u) => list.appendChild(renderRow(u)));
       maybeShowEmpty();
     } catch (err) {
-      list.innerHTML = `<li class="text-center py-6 font-body-md text-body-md" style="color:#991B1B;">${escapeHtml(err.message)}</li>`;
+      list.innerHTML = `<li class="text-center py-6 font-body-md text-body-md text-red-600 dark:text-rose-300">${escapeHtml(err.message)}</li>`;
     }
   }
 

@@ -60,8 +60,8 @@ def save_to_mysql(records: Iterable[dict]) -> int:
         for rec in records:
             existing = session.get(ArticleRecord, rec["id"])
             fields = {k: rec.get(k) for k in (
-                "title", "body", "date", "language", "source_url", "domain",
-                "fetched_at", "title_method", "body_method", "date_method",
+                "title", "body", "date", "language", "source_url", "domain", "image",
+                "fetched_at", "title_method", "body_method", "date_method", "image_method",
             )}
             if existing:
                 for k, v in fields.items():

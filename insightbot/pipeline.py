@@ -38,7 +38,7 @@ def process_one(url: str, language: str) -> dict:
     start = time.monotonic()
     result = {
         "source_url": url, "language": language, "domain": domain_of(url),
-        "title": None, "body": None, "date": None, "error": None, "warnings": [],
+        "title": None, "body": None, "date": None, "image": None, "error": None, "warnings": [],
         "elapsed_seconds": None,
     }
     try:
@@ -58,9 +58,11 @@ def process_one(url: str, language: str) -> dict:
             title=extracted.title,
             body=extracted.body,
             date=extracted.date,
+            image=extracted.image,
             title_method=extracted.title_method,
             body_method=extracted.body_method,
             date_method=extracted.date_method,
+            image_method=extracted.image_method,
             warnings=extracted.warnings,
         )
     except Exception as exc:  # last-resort guard: never let one site kill a batch

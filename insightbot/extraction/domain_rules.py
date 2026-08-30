@@ -21,6 +21,7 @@ class DomainRule:
     body_selector: str | None = None
     date_selector: str | None = None
     date_attr: str | None = None  # attribute to read date from; None = element text
+    image_selector: str | None = None  # CSS selector for an <img>; its src is used
 
 
 def domain_of(url: str) -> str:
@@ -46,6 +47,7 @@ def get_rule(url: str, config_path: Path = None) -> DomainRule:
         body_selector=entry.get("body_selector"),
         date_selector=entry.get("date_selector"),
         date_attr=entry.get("date_attr"),
+        image_selector=entry.get("image_selector"),
     )
 
 

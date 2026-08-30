@@ -4,7 +4,6 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   const msg = document.getElementById("login-message");
   msg.textContent = "";
   msg.className = "font-body-md text-body-md mt-4";
-  msg.style.color = "";
 
   try {
     const data = await InsightBot.api("/api/auth/login", {
@@ -18,7 +17,6 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     window.location.href = "/";
   } catch (err) {
     msg.textContent = err.message;
-    msg.className = "font-body-md text-body-md mt-4 font-medium";
-    msg.style.color = "#991B1B";
+    msg.className = "font-body-md text-body-md mt-4 font-medium text-red-600 dark:text-rose-300";
   }
 });

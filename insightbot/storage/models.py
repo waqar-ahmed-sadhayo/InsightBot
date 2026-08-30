@@ -20,10 +20,12 @@ class ArticleRecord(Base):
     language = Column(String(8), nullable=False, index=True)
     source_url = Column(Text, nullable=False)
     domain = Column(String(255), nullable=True, index=True)
+    image = Column(Text, nullable=True)
     fetched_at = Column(String(64), nullable=True)
     title_method = Column(String(64), nullable=True)
     body_method = Column(String(64), nullable=True)
     date_method = Column(String(64), nullable=True)
+    image_method = Column(String(64), nullable=True)
     created_at = Column(DateTime, nullable=True)
 
     def to_dict(self) -> dict:
@@ -35,10 +37,12 @@ class ArticleRecord(Base):
             "language": self.language,
             "source_url": self.source_url,
             "domain": self.domain,
+            "image": self.image,
             "fetched_at": self.fetched_at,
             "title_method": self.title_method,
             "body_method": self.body_method,
             "date_method": self.date_method,
+            "image_method": self.image_method,
         }
 
 

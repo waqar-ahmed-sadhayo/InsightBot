@@ -26,7 +26,7 @@
     gate.classList.remove("hidden");
     gate.classList.add("flex");
     document.getElementById("stats-row").remove();
-    document.querySelector("section.mb-6").remove();
+    document.getElementById("articles-filter-card").remove();
     return;
   }
 
@@ -53,21 +53,41 @@
 
   document.addEventListener("insightbot:search", (e) => navigateWith({ q: e.detail.q }));
 
-  const PILL_ACTIVE = "bg-primary-container dark:bg-primary-fixed-dim text-on-primary-container dark:text-on-primary-fixed";
-  const PILL_INACTIVE = "bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-on-surface-variant/30";
+  const PILL_ACTIVE = "bg-primary dark:bg-[#5516be] text-white shadow-sm";
+  const PILL_INACTIVE = "bg-surface-container dark:bg-[#0f172a] border border-outline-variant/50 dark:border-[#334155] text-on-surface-variant dark:text-[#94a3b8] hover:bg-surface-container-high dark:hover:bg-[#334155]";
   document.querySelectorAll(".lang-pill").forEach((pill) => {
     const active = pill.dataset.lang === language;
-    pill.className = `lang-pill px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors ${active ? PILL_ACTIVE : PILL_INACTIVE}`;
+    pill.className = `lang-pill px-3.5 py-1.5 rounded-full font-label-md text-label-md transition-colors ${active ? PILL_ACTIVE : PILL_INACTIVE}`;
     pill.addEventListener("click", () => navigateWith({ language: pill.dataset.lang }));
   });
 
-  const SAVED_ACTIVE = "flex items-center gap-1.5 px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors bg-primary text-on-primary";
-  const SAVED_INACTIVE = "flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant dark:border-outline text-on-surface-variant dark:text-outline-variant font-label-md text-label-md whitespace-nowrap transition-colors hover:bg-surface-container-high dark:hover:bg-on-surface-variant/30";
+  const SAVED_ACTIVE = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-label-md text-label-md whitespace-nowrap transition-colors bg-primary-fixed dark:bg-[#d0bcff]/20 border-primary dark:border-[#d0bcff] text-primary dark:text-[#d0bcff]";
+  const SAVED_INACTIVE = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-outline-variant dark:border-[#334155] text-on-surface-variant dark:text-[#94a3b8] font-label-md text-label-md whitespace-nowrap transition-colors hover:bg-surface-container-high dark:hover:bg-[#334155]";
   savedToggle.className = savedOnly ? SAVED_ACTIVE : SAVED_INACTIVE;
   savedToggle.addEventListener("click", () => navigateWith({ saved: savedOnly ? "" : "true" }));
 
   domainFilter.disabled = savedOnly;
   domainFilter.addEventListener("change", () => navigateWith({ domain: domainFilter.value }));
+
+  const activeFiltersBar = document.getElementById("active-filters");
+  function updateActiveFiltersBar(total) {
+    const hasFilters = language || domain || query || savedOnly;
+    if (!hasFilters) {
+      activeFiltersBar.classList.add("hidden");
+      activeFiltersBar.classList.remove("flex");
+      return;
+    }
+    const parts = [];
+    if (language) parts.push(LANG_NAMES[language] || language);
+    if (domain) parts.push(domain);
+    if (savedOnly) parts.push("Saved only");
+    if (query) parts.push(`"${query}"`);
+    activeFiltersBar.innerHTML = `
+      <span>Showing <strong class="text-on-surface dark:text-[#f8fafc]">${total}</strong> article${total === 1 ? "" : "s"}${parts.length ? " &bull; " + parts.map(escapeHtml).join(" &bull; ") : ""}</span>
+      <a href="/" class="text-primary dark:text-[#d0bcff] hover:underline font-medium">Clear filters</a>`;
+    activeFiltersBar.classList.remove("hidden");
+    activeFiltersBar.classList.add("flex");
+  }
 
   async function loadDomains() {
     try {
@@ -83,13 +103,13 @@
   async function loadStats() {
     try {
       const stats = await InsightBot.api("/api/dashboard/stats");
-      const cardCls = "bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-lg p-3 flex flex-col";
+      const cardCls = "bg-surface-container-lowest dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-lg p-3 flex flex-col";
       statsRow.innerHTML = [
-        `<div class="${cardCls}"><span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-surface-bright">${stats.total_articles}</span><span class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant">Total articles</span></div>`,
+        `<div class="${cardCls}"><span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-[#f8fafc]">${stats.total_articles}</span><span class="font-label-sm text-label-sm text-on-surface-variant dark:text-[#94a3b8]">Total articles</span></div>`,
         ...stats.by_language.map(([lang, count]) => `
           <div class="${cardCls}">
-            <span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-surface-bright">${count}</span>
-            <span class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant">${escapeHtml(LANG_NAMES[lang] || lang || "Unknown")}</span>
+            <span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-[#f8fafc]">${count}</span>
+            <span class="font-label-sm text-label-sm text-on-surface-variant dark:text-[#94a3b8]">${escapeHtml(LANG_NAMES[lang] || lang || "Unknown")}</span>
           </div>`),
       ].join("");
     } catch (err) {
@@ -106,7 +126,7 @@
   }
 
   function skeletonCard() {
-    return `<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-xl p-5">
+    return `<div class="bg-surface-container-lowest dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-xl p-5">
       <div class="skeleton h-5 w-3/4 rounded mb-3"></div>
       <div class="skeleton h-4 w-full rounded mb-2"></div>
       <div class="skeleton h-4 w-5/6 rounded"></div>
@@ -163,32 +183,33 @@
   function setBookmarkIcon(btn, saved) {
     btn.innerHTML = `<span class="material-symbols-outlined" ${saved ? "style=\"font-variation-settings: 'FILL' 1;\"" : ""} aria-hidden="true">bookmark</span>`;
     btn.className = saved
-      ? "text-primary dark:text-primary-fixed-dim hover:bg-primary-container/20 dark:hover:bg-on-surface-variant/30 rounded-full p-1.5 transition-colors flex-shrink-0"
-      : "text-outline dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-high dark:hover:bg-on-surface-variant/30 rounded-full p-1.5 transition-colors flex-shrink-0";
+      ? "text-primary dark:text-primary-fixed-dim hover:bg-primary-container/20 dark:hover:bg-[#334155] rounded-full p-1.5 transition-colors flex-shrink-0"
+      : "text-outline dark:text-[#94a3b8] hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-high dark:hover:bg-[#334155] rounded-full p-1.5 transition-colors flex-shrink-0";
   }
 
   function langBadge(lang) {
-    if (lang === "ar") return `<span class="ms-auto bg-tertiary-container/10 text-tertiary dark:text-tertiary-fixed px-2 py-0.5 rounded font-label-sm text-label-sm border border-tertiary/20">Arabic</span>`;
+    if (lang === "ar") return `<span class="ms-auto bg-tertiary-container/10 text-tertiary dark:text-rose-300 px-2 py-0.5 rounded font-label-sm text-label-sm border border-tertiary/20">Arabic</span>`;
     const names = { en: "EN", ru: "RU" };
-    return `<span class="ms-auto bg-surface-container dark:bg-on-surface-variant/30 text-on-surface-variant dark:text-outline-variant px-2 py-0.5 rounded font-label-sm text-label-sm border border-outline-variant/30 dark:border-outline/30">${escapeHtml(names[lang] || lang || "?")}</span>`;
+    return `<span class="ms-auto bg-surface-container dark:bg-[#334155] text-on-surface-variant dark:text-[#94a3b8] px-2 py-0.5 rounded font-label-sm text-label-sm border border-outline-variant/30 dark:border-[#334155]/60">${escapeHtml(names[lang] || lang || "?")}</span>`;
   }
 
   function renderCard(a) {
     const isRtl = a.language === "ar";
     const saved = bookmarkIds.has(a.id);
     return `
-      <article dir="${isRtl ? "rtl" : "ltr"}" class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-xl p-5 hover:shadow-md transition-shadow flex flex-col gap-3 group relative">
+      <article dir="${isRtl ? "rtl" : "ltr"}" class="bg-surface-container-lowest dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-xl p-5 hover:shadow-md transition-shadow flex flex-col gap-3 group relative overflow-hidden">
+        ${a.image ? `<a href="/articles/${a.id}" class="block -mx-5 -mt-5 mb-1"><img src="${escapeHtml(a.image)}" alt="" loading="lazy" class="w-full h-44 object-cover" onerror="this.closest('a').remove()"></a>` : ""}
         <div class="flex justify-between items-start gap-4">
-          <a href="/articles/${a.id}" class="font-headline-md text-headline-md text-on-surface dark:text-surface-bright hover:text-primary dark:hover:text-primary-fixed-dim transition-colors ${isRtl ? "font-sans" : ""}">${escapeHtml(a.title || "(untitled)")}</a>
+          <a href="/articles/${a.id}" class="font-headline-md text-headline-md text-on-surface dark:text-[#f8fafc] hover:text-primary dark:hover:text-primary-fixed-dim transition-colors ${isRtl ? "font-sans" : ""}">${escapeHtml(a.title || "(untitled)")}</a>
           <button type="button" class="star-btn flex-shrink-0" data-id="${escapeHtml(a.id)}" title="Save article" aria-label="Save article"></button>
         </div>
-        <a href="/articles/${a.id}" class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant line-clamp-2">${escapeHtml((a.body || "").slice(0, 220))}</a>
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 pt-3 border-t border-outline-variant/40 dark:border-outline/30">
-          <div class="flex items-center gap-1.5 text-on-surface-variant dark:text-outline-variant">
+        <a href="/articles/${a.id}" class="font-body-md text-body-md text-on-surface-variant dark:text-[#94a3b8] line-clamp-2">${escapeHtml((a.body || "").slice(0, 220))}</a>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 pt-3 border-t border-outline-variant/40 dark:border-[#334155]/60">
+          <div class="flex items-center gap-1.5 text-on-surface-variant dark:text-[#94a3b8]">
             <span class="material-symbols-outlined text-[16px]" aria-hidden="true">public</span>
             <span class="font-label-sm text-label-sm">${escapeHtml(a.domain || "")}</span>
           </div>
-          <div class="flex items-center gap-1.5 text-on-surface-variant dark:text-outline-variant">
+          <div class="flex items-center gap-1.5 text-on-surface-variant dark:text-[#94a3b8]">
             <span class="material-symbols-outlined text-[16px]" aria-hidden="true">calendar_today</span>
             <span class="font-label-sm text-label-sm">${escapeHtml(a.date || "date unknown")}</span>
           </div>
@@ -200,11 +221,11 @@
   function renderEmptyState() {
     list.innerHTML = `
       <div class="col-span-full flex flex-col items-center justify-center text-center py-16 px-4">
-        <div class="w-28 h-28 mb-6 rounded-full bg-surface-container dark:bg-inverse-surface flex items-center justify-center">
-          <span class="material-symbols-outlined text-5xl text-outline-variant dark:text-outline" aria-hidden="true">${savedOnly ? "bookmark" : "search_off"}</span>
+        <div class="w-28 h-28 mb-6 rounded-full bg-surface-container dark:bg-[#1e293b] flex items-center justify-center">
+          <span class="material-symbols-outlined text-5xl text-outline-variant dark:text-[#94a3b8]" aria-hidden="true">${savedOnly ? "bookmark" : "search_off"}</span>
         </div>
-        <h2 class="font-headline-md text-headline-md text-on-surface dark:text-surface-bright mb-2">${savedOnly ? "No saved articles yet" : "No articles found"}</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant mb-8 max-w-[320px]">${savedOnly ? "Bookmark articles to see them here and read them later." : "Try a different language, domain, or search term."}</p>
+        <h2 class="font-headline-md text-headline-md text-on-surface dark:text-[#f8fafc] mb-2">${savedOnly ? "No saved articles yet" : "No articles found"}</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant dark:text-[#94a3b8] mb-8 max-w-[320px]">${savedOnly ? "Bookmark articles to see them here and read them later." : "Try a different language, domain, or search term."}</p>
         ${savedOnly ? `<a href="/" class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-shadow">Browse Articles</a>` : ""}
       </div>`;
     pager.classList.add("hidden");
@@ -216,6 +237,7 @@
     try {
       const data = await fetchArticles();
       hideBanner(listError);
+      updateActiveFiltersBar(data.total);
 
       if (!data.items.length) {
         renderEmptyState();
@@ -239,6 +261,8 @@
       list.innerHTML = "";
       showBanner(listError, err.message);
       pager.classList.add("hidden");
+      activeFiltersBar.classList.add("hidden");
+      activeFiltersBar.classList.remove("flex");
     }
   }
 

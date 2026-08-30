@@ -2,12 +2,14 @@
 {% from "_macros.html" import error_banner %}
 {% block title %}Article - InsightBot{% endblock %}
 {% block content %}
-<a href="/" class="inline-flex items-center gap-1 text-primary dark:text-primary-fixed-dim font-label-md text-label-md mb-4 hover:underline">
-  <span class="material-symbols-outlined icon-mirror text-[18px]" aria-hidden="true">arrow_back</span>
-  Back to list
-</a>
-{{ error_banner("detail-error") }}
-<article id="article-detail" class="max-w-3xl mx-auto bg-surface-container-lowest dark:bg-inverse-surface rounded-xl shadow-sm border border-outline-variant dark:border-outline p-6" data-article-id="{{ article_id }}">
+<div class="max-w-3xl mx-auto mb-4">
+  <a href="/" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-outline-variant dark:border-[#334155] bg-surface-container-lowest dark:bg-[#1e293b] text-on-surface-variant dark:text-[#94a3b8] hover:text-on-surface dark:hover:text-[#f8fafc] hover:bg-surface-container dark:hover:bg-[#334155] font-label-md text-label-md transition-colors">
+    <span class="material-symbols-outlined icon-mirror text-[18px]" aria-hidden="true">arrow_back</span>
+    Back to Articles
+  </a>
+</div>
+<div class="max-w-3xl mx-auto">{{ error_banner("detail-error") }}</div>
+<article id="article-detail" class="max-w-3xl mx-auto bg-surface-container-lowest dark:bg-[#1e293b] rounded-xl shadow-sm border border-outline-variant dark:border-[#334155] p-6" data-article-id="{{ article_id }}">
   <div class="skeleton h-5 w-20 rounded-full mb-4"></div>
   <div class="skeleton h-8 w-4/5 rounded mb-3"></div>
   <div class="skeleton h-4 w-1/3 rounded mb-6"></div>

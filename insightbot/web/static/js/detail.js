@@ -56,22 +56,22 @@
 
     container.innerHTML = `
       <div class="flex items-center gap-3 mb-4 flex-wrap">
-        <span class="bg-surface-container-high dark:bg-on-surface-variant/30 text-primary dark:text-primary-fixed-dim px-3 py-1 rounded-full font-label-md text-label-md flex items-center gap-1">
+        <span class="bg-surface-container-high dark:bg-[#334155] text-primary dark:text-primary-fixed-dim px-3 py-1 rounded-full font-label-md text-label-md flex items-center gap-1">
           <span class="material-symbols-outlined text-[14px]" aria-hidden="true">language</span>
           ${escapeHtml(LANG_NAMES[a.language] || a.language || "Unknown")}
         </span>
-        <span class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm flex items-center gap-1">
+        <span class="text-on-surface-variant dark:text-[#94a3b8] font-label-sm text-label-sm flex items-center gap-1">
           <span class="material-symbols-outlined text-[14px]" aria-hidden="true">calendar_today</span>
           ${escapeHtml(a.date || "date unknown")}
         </span>
-        <span class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm flex items-center gap-1">
+        <span class="text-on-surface-variant dark:text-[#94a3b8] font-label-sm text-label-sm flex items-center gap-1">
           <span class="material-symbols-outlined text-[14px]" aria-hidden="true">schedule</span>
           ${readTime(a.body)} min read
         </span>
       </div>
-      <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface dark:text-surface-bright mb-4">${escapeHtml(a.title || "(untitled)")}</h1>
-      <div class="flex items-center justify-between gap-4 mb-6 pb-6 border-b border-outline-variant dark:border-outline">
-        <p class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant flex items-center gap-1">
+      <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface dark:text-[#f8fafc] mb-4">${escapeHtml(a.title || "(untitled)")}</h1>
+      <div class="flex items-center justify-between gap-4 mb-6 pb-6 border-b border-outline-variant dark:border-[#334155]">
+        <p class="font-label-sm text-label-sm text-on-surface-variant dark:text-[#94a3b8] flex items-center gap-1">
           <span class="material-symbols-outlined text-[14px]" aria-hidden="true">domain</span>
           via ${escapeHtml(a.domain || "unknown source")}
           <a href="${a.source_url}" target="_blank" rel="noopener" class="ms-2 text-primary dark:text-primary-fixed-dim hover:underline inline-flex items-center gap-0.5">
@@ -80,17 +80,18 @@
         </p>
         <button type="button" id="detail-star-btn" class="rounded-full p-1.5 transition-colors flex-shrink-0" title="Save article" aria-label="Save article"></button>
       </div>
-      <div class="article-body font-body-lg text-body-lg text-on-background dark:text-surface-bright ${isRtl ? "font-sans" : ""}">${escapeHtml(a.body || "(no body extracted)")}</div>
-      <section class="flex flex-col items-center gap-4 py-8 mt-4 border-t border-outline-variant dark:border-outline">
-        <h3 class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant uppercase tracking-wider">Share this article</h3>
+      ${a.image ? `<img src="${escapeHtml(a.image)}" alt="" loading="lazy" class="w-full max-h-[360px] object-cover rounded-xl border border-outline-variant dark:border-[#334155] mb-6" onerror="this.remove()">` : ""}
+      <div class="article-body font-body-lg text-body-lg text-on-background dark:text-[#f8fafc] ${isRtl ? "font-sans" : ""}">${escapeHtml(a.body || "(no body extracted)")}</div>
+      <section class="flex flex-col items-center gap-4 py-8 mt-4 border-t border-outline-variant dark:border-[#334155]">
+        <h3 class="font-label-md text-label-md text-on-surface-variant dark:text-[#94a3b8] uppercase tracking-wider">Share this article</h3>
         <div class="flex gap-4">
-          <button type="button" id="share-btn" class="w-12 h-12 rounded-full bg-surface-container-highest dark:bg-inverse-surface hover:bg-surface-variant dark:hover:bg-on-surface-variant/40 text-primary dark:text-primary-fixed-dim flex items-center justify-center shadow-sm transition-colors" title="Share">
+          <button type="button" id="share-btn" class="w-12 h-12 rounded-full bg-surface-container-highest dark:bg-[#1e293b] hover:bg-surface-variant dark:hover:bg-[#334155] text-primary dark:text-primary-fixed-dim flex items-center justify-center shadow-sm transition-colors" title="Share">
             <span class="material-symbols-outlined" aria-hidden="true">share</span>
           </button>
-          <button type="button" id="copy-link-btn" class="w-12 h-12 rounded-full bg-surface-container-highest dark:bg-inverse-surface hover:bg-surface-variant dark:hover:bg-on-surface-variant/40 text-primary dark:text-primary-fixed-dim flex items-center justify-center shadow-sm transition-colors" title="Copy link">
+          <button type="button" id="copy-link-btn" class="w-12 h-12 rounded-full bg-surface-container-highest dark:bg-[#1e293b] hover:bg-surface-variant dark:hover:bg-[#334155] text-primary dark:text-primary-fixed-dim flex items-center justify-center shadow-sm transition-colors" title="Copy link">
             <span class="material-symbols-outlined" aria-hidden="true">link</span>
           </button>
-          <a href="mailto:?subject=${encodeURIComponent(a.title || "InsightBot article")}&body=${encodeURIComponent(window.location.href)}" class="w-12 h-12 rounded-full bg-surface-container-highest dark:bg-inverse-surface hover:bg-surface-variant dark:hover:bg-on-surface-variant/40 text-primary dark:text-primary-fixed-dim flex items-center justify-center shadow-sm transition-colors" title="Email">
+          <a href="mailto:?subject=${encodeURIComponent(a.title || "InsightBot article")}&body=${encodeURIComponent(window.location.href)}" class="w-12 h-12 rounded-full bg-surface-container-highest dark:bg-[#1e293b] hover:bg-surface-variant dark:hover:bg-[#334155] text-primary dark:text-primary-fixed-dim flex items-center justify-center shadow-sm transition-colors" title="Email">
             <span class="material-symbols-outlined" aria-hidden="true">mail</span>
           </a>
         </div>
@@ -107,8 +108,8 @@
     function setStar(isSaved) {
       starBtn.innerHTML = `<span class="material-symbols-outlined" ${isSaved ? "style=\"font-variation-settings: 'FILL' 1;\"" : ""} aria-hidden="true">bookmark</span>`;
       starBtn.className = isSaved
-        ? "rounded-full p-1.5 transition-colors flex-shrink-0 text-primary dark:text-primary-fixed-dim hover:bg-primary-container/20 dark:hover:bg-on-surface-variant/30"
-        : "rounded-full p-1.5 transition-colors flex-shrink-0 text-outline dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-high dark:hover:bg-on-surface-variant/30";
+        ? "rounded-full p-1.5 transition-colors flex-shrink-0 text-primary dark:text-primary-fixed-dim hover:bg-primary-container/20 dark:hover:bg-[#334155]"
+        : "rounded-full p-1.5 transition-colors flex-shrink-0 text-outline dark:text-[#94a3b8] hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-high dark:hover:bg-[#334155]";
     }
     setStar(saved);
 
@@ -138,5 +139,6 @@
   } catch (err) {
     container.innerHTML = "";
     showBanner(errorBanner, err.message);
+    container.remove();
   }
 })();
