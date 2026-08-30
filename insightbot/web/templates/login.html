@@ -14,8 +14,13 @@
       </label>
       <label class="block">
         <span class="font-label-md text-label-md text-on-surface-variant dark:text-[#94a3b8]">Password</span>
-        <input type="password" name="password" autocomplete="current-password" required
-          class="mt-1 w-full h-11 px-3 bg-surface dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-lg text-body-md text-on-surface dark:text-[#f8fafc] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+        <div class="relative mt-1">
+          <input type="password" name="password" id="login-password" autocomplete="current-password" required
+            class="w-full h-11 px-3 pe-11 bg-surface dark:bg-[#1e293b] border border-outline-variant dark:border-[#334155] rounded-lg text-body-md text-on-surface dark:text-[#f8fafc] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+          <button type="button" id="toggle-password-btn" class="absolute end-2 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-[#94a3b8] hover:text-on-surface dark:hover:text-[#f8fafc] rounded-full p-1.5 transition-colors" aria-label="Show password" title="Show password">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">visibility</span>
+          </button>
+        </div>
       </label>
       <button type="submit" class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">Log in</button>
     </form>

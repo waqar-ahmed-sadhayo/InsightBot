@@ -1,3 +1,16 @@
+(() => {
+  const toggleBtn = document.getElementById("toggle-password-btn");
+  const passwordInput = document.getElementById("register-password");
+  if (!toggleBtn || !passwordInput) return;
+  toggleBtn.addEventListener("click", () => {
+    const showing = passwordInput.type === "text";
+    passwordInput.type = showing ? "password" : "text";
+    toggleBtn.querySelector(".material-symbols-outlined").textContent = showing ? "visibility" : "visibility_off";
+    toggleBtn.title = showing ? "Show password" : "Hide password";
+    toggleBtn.setAttribute("aria-label", toggleBtn.title);
+  });
+})();
+
 document.getElementById("register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = e.target;
